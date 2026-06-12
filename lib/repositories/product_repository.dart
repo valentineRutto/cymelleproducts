@@ -6,8 +6,30 @@
  import 'package:cymelleproducts/models/product.dart';
  
  class ProductRepository {
-  
+
    static const _url = 'https://fakestoreapi.com/products';
+
+Future<List<Product>> fetchProducts() async {
+    try {
+
+      final response = await http.get(Uri.parse(_url));
+
+      if (response.statusCode == 200) {
+
+        final List<dynamic> data = json.decode(response.body);
+        return data.map((json) => Product.fromJson(json)).toList();
+        
+      } else {
+        throw Exception('Failed to load products');
+      }
+    } catch (e) {
+      print('Error fetching products: $e');
+      return _mockProducts; 
+    }
+  }
+
+
+   
 
  static final List<Product> _mockProducts = [
     const Product(
