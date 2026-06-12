@@ -1,16 +1,22 @@
 # cymelleproducts
 
-A new Flutter project.
+Cymelle Products mobile app.
 
-## Getting Started
+## Platforms
 
-This project is a starting point for a Flutter application.
+This Flutter project is configured for Android and iOS only.
 
-A few resources to get you started if this is your first Flutter project:
+## Development
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Run the app with:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```sh
+flutter run
+```
+
+Run checks with:
+
+```sh
+flutter analyze
+flutter test
+```
