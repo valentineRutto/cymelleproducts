@@ -27,8 +27,8 @@ class ProductProvider extends ChangeNotifier {
 
   String get errorMessage => _errorMessage;
 
-  bool get IsLoading => _state == LoadingState.loading;
-  bool get HasError => _state == LoadingState.error;
+  bool get isLoading => _state == LoadingState.loading;
+  bool get hasError => _state == LoadingState.error;
   bool get isEmpty => _state == LoadingState.success && _products.isEmpty;
 
   Future<void> loadProducts() async {
