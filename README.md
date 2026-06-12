@@ -12,17 +12,4 @@ This Flutter project is configured for Android and iOS only.
 | --- | --- | --- |
 | <img src="docs/ui-preview/products.png" alt="Products screen" width="260"> | <img src="docs/ui-preview/cart.png" alt="Cart screen" width="260"> | <img src="docs/ui-preview/ride-tracking.png" alt="Ride tracking screen" width="260"> |
 
-## Development
 
-Run the app with:
-
-```sh
-flutter run
-```
-
-Run checks with:
-
-```sh
-flutter analyze
-flutter test
-```
