@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_map/flutter_map.dart';  
-import 'package:latlong2/latlong.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:cymelleproducts/providers/ride_provider.dart';
 import 'package:cymelleproducts/models/ride.dart';
 
 class RideTrackingScreen extends StatefulWidget {
-  const RideTrackingScreen({super.key});
+  const RideTrackingScreen({super.key, this.onBackToProducts});
+
+  final VoidCallback? onBackToProducts;
 
   @override
   State<RideTrackingScreen> createState() => _RideTrackingScreenState();
@@ -58,10 +59,9 @@ class _RideTrackingScreenState extends State<RideTrackingScreen> {
                     polylines: [
                       Polyline(
                         points: mockRoute,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.5),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withValues(alpha: 0.5),
                         strokeWidth: 4,
                       ),
                     ],
@@ -99,7 +99,7 @@ class _RideTrackingScreenState extends State<RideTrackingScreen> {
                     backgroundColor: Colors.white,
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: widget.onBackToProducts,
                     ),
                   ),
                 ),
@@ -127,7 +127,7 @@ class _RideTrackingScreenState extends State<RideTrackingScreen> {
   }
 }
 
-// ── Driver marker on map 
+// ── Driver marker on map
 class _DriverMarker extends StatelessWidget {
   final TripStatus status;
   const _DriverMarker({required this.status});
@@ -145,7 +145,7 @@ class _DriverMarker extends StatelessWidget {
         border: Border.all(color: Colors.white, width: 2.5),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.4),
+            color: color.withValues(alpha: 0.4),
             blurRadius: 8,
             spreadRadius: 2,
           ),
@@ -174,7 +174,7 @@ class _TripStatusBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.12),
+            color: Colors.black.withValues(alpha: 0.12),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -188,9 +188,7 @@ class _TripStatusBar extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
-              color: isCompleted
-                  ? colors.onPrimaryContainer
-                  : colors.onSurface,
+              color: isCompleted ? colors.onPrimaryContainer : colors.onSurface,
             ),
           ),
           const SizedBox(height: 2),
@@ -199,8 +197,8 @@ class _TripStatusBar extends StatelessWidget {
             style: TextStyle(
               fontSize: 11,
               color: isCompleted
-                  ? colors.onPrimaryContainer.withOpacity(0.7)
-                  : colors.onSurface.withOpacity(0.6),
+                  ? colors.onPrimaryContainer.withValues(alpha: 0.7)
+                  : colors.onSurface.withValues(alpha: 0.6),
             ),
           ),
         ],
@@ -209,7 +207,7 @@ class _TripStatusBar extends StatelessWidget {
   }
 }
 
-// ── Bottom driver info card 
+// ── Bottom driver info card
 class _DriverCard extends StatelessWidget {
   final RideProvider ride;
   const _DriverCard({required this.ride});
@@ -222,13 +220,18 @@ class _DriverCard extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.all(0),
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 36),
+      padding: EdgeInsets.fromLTRB(
+        20,
+        20,
+        20,
+        20 + MediaQuery.paddingOf(context).bottom,
+      ),
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.12),
+            color: Colors.black.withValues(alpha: 0.12),
             blurRadius: 16,
             offset: const Offset(0, -4),
           ),
@@ -282,7 +285,7 @@ class _DriverCard extends StatelessWidget {
                       driver.vehicle,
                       style: TextStyle(
                         fontSize: 12,
-                        color: colors.onSurface.withOpacity(0.6),
+                        color: colors.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -291,7 +294,9 @@ class _DriverCard extends StatelessWidget {
                         // Plate badge
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 2),
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: colors.surfaceContainerHighest,
                             borderRadius: BorderRadius.circular(6),
@@ -307,8 +312,11 @@ class _DriverCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        const Icon(Icons.star_rounded,
-                            size: 16, color: Colors.amber),
+                        const Icon(
+                          Icons.star_rounded,
+                          size: 16,
+                          color: Colors.amber,
+                        ),
                         const SizedBox(width: 2),
                         Text(
                           driver.rating.toStringAsFixed(2),
@@ -325,9 +333,9 @@ class _DriverCard extends StatelessWidget {
 
               // Call / message icons
               if (!isCompleted) ...[
-                _ActionButton(icon: Icons.message_outlined, onTap: () {}),
-                const SizedBox(width: 8),
-                _ActionButton(icon: Icons.call_outlined, onTap: () {}),
+              //  _ActionButton(icon: Icons.message_outlined, onTap: () {}),
+              //  const SizedBox(width: 8),
+              //  _ActionButton(icon: Icons.call_outlined, onTap: () {}),
               ],
             ],
           ),
@@ -428,8 +436,8 @@ class _ProgressStepper extends StatelessWidget {
               child: done
                   ? const Icon(Icons.check, size: 12, color: Colors.white)
                   : current
-                      ? const Icon(Icons.circle, size: 8, color: Colors.white)
-                      : null,
+                  ? const Icon(Icons.circle, size: 8, color: Colors.white)
+                  : null,
             ),
             const SizedBox(height: 4),
             Text(
@@ -438,9 +446,8 @@ class _ProgressStepper extends StatelessWidget {
                 fontSize: 9,
                 color: done || current
                     ? colors.primary
-                    : colors.onSurface.withOpacity(0.4),
-                fontWeight:
-                    current ? FontWeight.bold : FontWeight.normal,
+                    : colors.onSurface.withValues(alpha: 0.4),
+                fontWeight: current ? FontWeight.bold : FontWeight.normal,
               ),
             ),
           ],
