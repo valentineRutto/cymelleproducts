@@ -14,7 +14,7 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('My Cart')),
       body: Consumer<CartProvider>(
         builder: (context, cart, _) {
-          // ── Empty cart ─────────────────────────────────
+
           if (cart.items.isEmpty) {
             return const Center(
               child: Column(
@@ -30,7 +30,6 @@ class CartScreen extends StatelessWidget {
             );
           }
 
-          // ── Cart items ─────────────────────────────────
           return Column(
             children: [
               Expanded(
@@ -43,7 +42,6 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
 
-              // ── Order summary ──────────────────────────
               _OrderSummary(cart: cart),
             ],
           );
@@ -53,7 +51,7 @@ class CartScreen extends StatelessWidget {
   }
 }
 
-// ── Cart item row ─────────────────────────────────────────────────────────────
+
 class CartItemTile extends StatelessWidget {
   final CartItem item;
   const CartItemTile({super.key, required this.item});
@@ -84,7 +82,6 @@ class CartItemTile extends StatelessWidget {
           ),
           const SizedBox(width: 12),
 
-          // Name + price
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +105,6 @@ class CartItemTile extends StatelessWidget {
           ),
           const SizedBox(width: 8),
 
-          // Quantity stepper
           Row(
             children: [
               _CircleButton(
@@ -160,7 +156,6 @@ class _CircleButton extends StatelessWidget {
   }
 }
 
-// ── Order summary card ────────────────────────────────────────────────────────
 class _OrderSummary extends StatelessWidget {
   final CartProvider cart;
   const _OrderSummary({required this.cart});

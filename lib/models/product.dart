@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
-
 class Product {
   final int id;
- final String title;
+  final String title;
   final double price;
   final String image;
   final String category;

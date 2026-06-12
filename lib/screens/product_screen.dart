@@ -62,12 +62,11 @@ class _ProductScreenState extends State<ProductScreen> {
       ),
       body: Consumer<ProductProvider>(
         builder: (context, provider, _) {
-          // ── Loading state ──────────────────────────────
+          
           if (provider.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // ── Error state ────────────────────────────────
           if (provider.hasError) {
             return Center(
               child: Padding(
@@ -99,7 +98,6 @@ class _ProductScreenState extends State<ProductScreen> {
             );
           }
 
-          // ── Empty state ────────────────────────────────
           if (provider.isEmpty) {
             return const Center(
               child: Column(
@@ -113,7 +111,6 @@ class _ProductScreenState extends State<ProductScreen> {
             );
           }
 
-          // ── Success: product grid ──────────────────────
           return GridView.builder(
             padding: const EdgeInsets.all(12),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -132,7 +129,6 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 }
 
-// ── Product card ─────────────────────────────────────────────────────────────
 class ProductCard extends StatelessWidget {
   final Product product;
   const ProductCard({super.key, required this.product});
@@ -146,7 +142,6 @@ class ProductCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Product image
           Expanded(
             child: CachedNetworkImage(
               imageUrl: product.image,
@@ -166,7 +161,6 @@ class ProductCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Title (2 lines max)
                 Text(
                   product.title,
                   maxLines: 2,
@@ -178,7 +172,6 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                // Price
                 Text(
                   '\$${product.price.toStringAsFixed(2)}',
                   style: TextStyle(
@@ -191,7 +184,6 @@ class ProductCard extends StatelessWidget {
             ),
           ),
 
-          // Add to cart button with quantity control
           Padding(
             padding: const EdgeInsets.all(10),
             child: Consumer<CartProvider>(
@@ -221,7 +213,6 @@ class ProductCard extends StatelessWidget {
   }
 }
 
-// ── Quantity stepper ─────────────────────────────────────────────────────────
 class _QuantityControl extends StatelessWidget {
   final int productId;
   final int quantity;
@@ -244,7 +235,6 @@ class _QuantityControl extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Decrement / remove
           IconButton(
             icon: Icon(
               quantity <= 1 ? Icons.delete_outline : Icons.remove,
@@ -255,7 +245,6 @@ class _QuantityControl extends StatelessWidget {
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
           ),
-          // Quantity badge
           Text(
             '$quantity',
             style: TextStyle(
@@ -263,7 +252,6 @@ class _QuantityControl extends StatelessWidget {
               color: colors.primary,
             ),
           ),
-          // Increment
           IconButton(
             icon: Icon(Icons.add, size: 18, color: colors.primary),
             onPressed: () => cart.increment(productId),
